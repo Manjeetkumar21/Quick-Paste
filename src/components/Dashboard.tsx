@@ -246,7 +246,7 @@ const Dashboard: React.FC = () => {
                 <p className="text-xs text-cyan-400 font-mono tracking-wider">NEURAL LINK ACTIVE</p>
               </div>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="sm:flex items-center gap-4 hidden">
               <div
                 className="flex items-center gap-2 px-4 py-2 bg-green-500/20 rounded-full border border-green-500/50"
                 style={{ boxShadow: "0 0 15px rgba(0,255,0,0.3)" }}
@@ -286,7 +286,7 @@ const Dashboard: React.FC = () => {
                 <Rocket className="w-5 h-5 text-purple-400" />
                 <span className="text-purple-300 font-mono text-sm tracking-wider">NEXT GEN SHARING PROTOCOL</span>
               </div>
-              <h2 className="text-7xl font-bold mb-8 leading-tight">
+              <h2 className="sm:text-7xl text-5xl font-bold mb-8 leading-tight">
                 <span className="bg-gradient-to-r from-white via-cyan-200 to-white bg-clip-text text-transparent animate-pulse">
                   QUANTUM
                 </span>
@@ -295,7 +295,7 @@ const Dashboard: React.FC = () => {
                   DATA STREAM
                 </span>
               </h2>
-              <p className="text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8">
+              <p className="sm:text-2xl text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8">
                 Experience the future of instant data sharing with our
                 <span className="text-cyan-400 font-bold"> quantum-encrypted</span> neural network.
                 <br />
@@ -372,7 +372,7 @@ const Dashboard: React.FC = () => {
         )}
 
         {/* Main Content */}
-        <div className={cn("grid gap-8 transition-all duration-700", isFullscreen ? "grid-cols-1" : "lg:grid-cols-3")}>
+        <div className={cn("grid gap-8 transition-all duration-700", isFullscreen ? "grid-cols-1" : "lg:grid-cols-3 grid-cols-1")}>
           {/* Editor Section */}
           <div className={cn("transition-all duration-700", isFullscreen ? "col-span-1" : "lg:col-span-2")}>
             <Card
@@ -396,7 +396,7 @@ const Dashboard: React.FC = () => {
                         NEURAL INTERFACE
                         {isTyping && <span className="ml-2 text-green-400 animate-pulse">●</span>}
                       </CardTitle>
-                      <CardDescription className="text-cyan-400 font-mono text-sm">
+                      <CardDescription className="text-cyan-400 font-mono sm:text-sm text-xs">
                         QUANTUM DATA INPUT STREAM
                       </CardDescription>
                     </div>
@@ -453,9 +453,9 @@ PASTE YOUR DATA:
                     </div>
                   )}
                 </div>
-                <div className="p-6 bg-gray-900/50 border-t border-cyan-500/30">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-6 text-sm font-mono">
+                <div className="sm:p-6 p-4 bg-gray-900/50 border-t border-cyan-500/30">
+                  <div className="flex items-center justify-between sm:flex-row flex-col gap-4">
+                    <div className="flex items-center gap-6 text-xs font-mono">
                       <span className="text-cyan-400">{content.length} BYTES</span>
                       <span className="text-purple-400">•</span>
                       <span className="text-purple-400">{content.split("\n").length} LINES</span>
