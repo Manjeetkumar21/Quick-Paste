@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+/* Custom Futuristic Styles */
+body {
+  font-family: "Courier New", monospace;
+  background: #000000;
+  color: #ffffff;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #00ffff, #ff00ff);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #00cccc, #cc00cc);
+}
+
+/* Smooth animations */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow,
+    transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Keyboard shortcuts styling */
+kbd {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-family: "Courier New", monospace;
+  background-color: rgba(55, 65, 81, 1);
+  color: rgba(209, 213, 219, 1);
+  border: 1px solid rgba(75, 85, 99, 1);
+  border-radius: 0.25rem;
+}
