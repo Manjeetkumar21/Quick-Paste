@@ -1,10 +1,9 @@
-"use client"
-
 import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import { useParams, Link } from "react-router-dom"
 import { Button } from "./ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
+import axios from "axios";
 import {
   Copy,
   ArrowLeft,
@@ -112,28 +111,32 @@ const ViewPaste: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    const fetchPaste = async () => {
-      if (!id) return
+  const fetchPaste = async () => {
+    if (!id) return;
 
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1000))
+    setIsLoading(true);
 
-        const storedPaste = localStorage.getItem(`paste_${id}`)
-        if (!storedPaste) {
-          throw new Error("Paste not found")
-        }
+    try {
+      const response = await axios.get(`${(import.meta as any).env.VITE_BASE_URL}/paste/${id}`);
+      const { content, createdAt } = response.data;
 
-        const data = JSON.parse(storedPaste)
-        setPaste(data)
-      } catch (error) {
-        setError("Failed to load paste. It may have been deleted or never existed.")
-      } finally {
-        setIsLoading(false)
-      }
+      setPaste({
+        id,
+        content,
+        createdAt
+      });
+    } catch (error) {
+      setError(
+        "Failed to load paste. It may have expired, been deleted, or never existed."
+      );
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-    fetchPaste()
-  }, [id])
+  fetchPaste();
+}, [id]);
 
   const copyToClipboard = async () => {
     if (!paste) return

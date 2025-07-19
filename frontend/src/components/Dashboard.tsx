@@ -1,10 +1,10 @@
-"use client"
-
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import { Button } from "./ui/button"
 import { Textarea } from "./ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
+import axios from "axios";
+
 import {
   Copy,
   Share2,
@@ -31,10 +31,10 @@ const Dashboard: React.FC = () => {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isTyping, setIsTyping] = useState(false)
+  const [isCopied, setIsCopied] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { toast } = useToast()
 
-  // Particle animation effect
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -100,7 +100,6 @@ const Dashboard: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  // Mouse tracking for interactive effects
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY })
@@ -110,7 +109,6 @@ const Dashboard: React.FC = () => {
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
 
-  // Typing indicator
   useEffect(() => {
     if (content) {
       setIsTyping(true)
@@ -119,51 +117,51 @@ const Dashboard: React.FC = () => {
     }
   }, [content])
 
-  const handleSave = async () => {
-    if (!content.trim()) {
-      toast({
-        title: "Error",
-        description: "Please enter some content to share",
-        variant: "destructive",
-      })
-      return
-    }
-
-    setIsLoading(true)
-
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-
-      const id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-      const pasteData = {
-        id,
-        content,
-        createdAt: new Date().toISOString(),
-      }
-
-      localStorage.setItem(`paste_${id}`, JSON.stringify(pasteData))
-
-      const url = `${window.location.origin}/${id}`
-      setShareUrl(url)
-
-      toast({
-        title: "Success!",
-        description: "Your content has been saved and is ready to share",
-      })
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to save content. Please try again.",
-        variant: "destructive",
-      })
-    } finally {
-      setIsLoading(false)
-    }
+const handleSave = async () => {
+  if (!content.trim()) {
+    toast({
+      title: "Error",
+      description: "Please enter some content to share",
+      variant: "destructive",
+    });
+    return;
   }
+
+  setIsLoading(true);
+
+  try {
+    const response = await axios.post(
+      `${(import.meta as any).env.VITE_BASE_URL}/paste`,
+      { content }
+    );
+
+    const { pasteId } = response.data;
+
+    const url = `${window.location.origin}/${pasteId}`;
+
+    setShareUrl(url);
+
+    toast({
+      title: "Success!",
+      description: "Your content has been saved and is ready to share",
+    });
+  } catch (error) {
+    toast({
+      title: "Error",
+      description: "Failed to save content. Please try again.",
+      variant: "destructive",
+    });
+    console.error(error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   const copyToClipboard = async (text: string, type: string) => {
     try {
       await navigator.clipboard.writeText(text)
+      setIsCopied(true)
       toast({
         title: "Copied!",
         description: `${type} copied to clipboard`,
@@ -532,7 +530,7 @@ PASTE YOUR DATA:
                       style={{ boxShadow: "0 0 30px rgba(0,255,0,0.5)" }}
                     >
                       <Copy className="w-4 h-4 mr-2" />
-                      COPY QUANTUM LINK
+                      {isCopied ? 'LINK COPIED!' : 'COPY LINK'}
                     </Button>
                   </CardContent>
                 </Card>
