@@ -102,7 +102,6 @@ const ViewPaste: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  // Mouse tracking
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY })
@@ -145,7 +144,7 @@ const ViewPaste: React.FC = () => {
       setTimeout(() => setCopied(false), 2000)
       toast({
         title: "Quantum Clone Complete!",
-        description: "Data successfully duplicated to neural buffer",
+        description: "Data successfully copied...",
       })
     } catch (error) {
       toast({
@@ -176,7 +175,7 @@ const ViewPaste: React.FC = () => {
       await navigator.clipboard.writeText(url)
       toast({
         title: "Quantum Link Transmitted!",
-        description: "Neural pathway copied to buffer",
+        description: "Shared link copied...",
       })
     } catch (error) {
       toast({
@@ -273,7 +272,7 @@ const ViewPaste: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="h-screen bg-black text-white relative overflow-hidden flex flex-col">
       <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0" style={{ opacity: 0.3 }} />
 
       <div className="fixed inset-0 pointer-events-none">
@@ -306,7 +305,7 @@ const ViewPaste: React.FC = () => {
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center gap-4 hover:opacity-80 transition-all duration-300 group">
               <div
-                className="w-12 h-12 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-all duration-300"
+                className="p-2 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-all duration-300"
                 style={{ boxShadow: "0 0 30px rgba(0,255,255,0.5)" }}
               >
                 <ArrowLeft className="w-6 h-6 text-white" />
@@ -316,16 +315,7 @@ const ViewPaste: React.FC = () => {
                 <p className="text-xs text-cyan-400 font-mono">Neural link established</p>
               </div>
             </Link>
-            <div className="flex items-center gap-4">
-              <div
-                className="flex items-center gap-2 px-4 py-2 bg-purple-500/20 rounded-full border border-purple-500/50"
-                style={{ boxShadow: "0 0 15px rgba(128,0,255,0.3)" }}
-              >
-                <Calendar className="w-4 h-4 text-purple-400 animate-pulse" />
-                <span className="text-sm text-purple-300 font-mono">
-                  {new Date(paste.createdAt).toLocaleDateString()}
-                </span>
-              </div>
+            <div className="sm:flex hidden items-center gap-4">
               <div
                 className="flex items-center gap-2 px-4 py-2 bg-cyan-500/20 rounded-full border border-cyan-500/50"
                 style={{ boxShadow: "0 0 15px rgba(0,255,255,0.3)" }}
@@ -338,21 +328,21 @@ const ViewPaste: React.FC = () => {
         </div>
       </header>
 
-      <div className="relative container mx-auto px-4 py-8 z-10">
+      <div className="flex-1 overflow-auto">
+        <div className="relative container mx-auto px-4 py-8 z-10">
         <div className="max-w-6xl mx-auto">
           <div className="mb-12 text-center">
             <div
-              className="inline-flex items-center gap-3 px-6 py-3 bg-green-500/20 border border-green-500/30 rounded-full mb-6"
+              className="inline-flex items-center gap-3 px-6 sm:py-3 py-1 bg-green-500/20 border border-green-500/30 rounded-full mb-6"
               style={{ boxShadow: "0 0 30px rgba(0,255,0,0.3)" }}
             >
-              <Database className="w-5 h-5 text-green-400 animate-pulse" />
-              <span className="text-green-300 font-mono tracking-wider">QUANTUM DATA RETRIEVED</span>
-              <Sparkles className="w-5 h-5 text-emerald-400 animate-spin" />
+              <Database className="sm:w-5 w-3 text-green-400 animate-pulse" />
+              <span className="text-green-300 font-mono sm:text-sm text-xs tracking-wider">QUANTUM DATA RETRIEVED</span>
             </div>
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-white via-cyan-200 to-white bg-clip-text text-transparent mb-6 font-mono">
+            <h1 className="sm:text-5xl text-2xl font-bold bg-gradient-to-r from-white via-cyan-200 to-white bg-clip-text text-transparent mb-6 font-mono">
               NEURAL STREAM ACTIVE
             </h1>
-            <p className="text-gray-400 text-xl font-mono">
+            <p className="text-gray-400 sm:text-xl text-sm font-mono">
               TIMESTAMP: {new Date(paste.createdAt).toLocaleString()} • DATA SIZE: {paste.content.length} BYTES •
               QUANTUM STATE: ENTANGLED
             </p>
@@ -365,7 +355,7 @@ const ViewPaste: React.FC = () => {
               style={{ boxShadow: copied ? "0 0 50px rgba(0,255,0,0.8)" : "0 0 30px rgba(0,255,0,0.5)" }}
             >
               <Copy className="w-5 h-5 mr-2" />
-              {copied ? "QUANTUM_CLONED!" : "CLONE_DATA"}
+              {copied ? "COPIED!" : "COPY DATA"}
             </Button>
             <Button
               onClick={downloadAsFile}
@@ -402,25 +392,11 @@ const ViewPaste: React.FC = () => {
                     <Terminal className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <CardTitle className="text-white text-2xl font-mono">QUANTUM DATA STREAM</CardTitle>
+                    <CardTitle className="text-white sm:text-2xl text-lg font-mono">QUANTUM DATA STREAM</CardTitle>
                     <CardDescription className="text-cyan-400 mt-1 font-mono">
                       {paste.content.length} BYTES • {paste.content.split("\n").length} LINES • &nbsp;
                       {paste.content.split(" ").filter((word) => word.length > 0).length} TOKENS
                     </CardDescription>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <div
-                    className="px-3 py-1 bg-green-500/20 rounded-full text-xs text-green-400 border border-green-500/50 font-mono"
-                    style={{ boxShadow: "0 0 10px rgba(0,255,0,0.3)" }}
-                  >
-                    ACTIVE
-                  </div>
-                  <div
-                    className="px-3 py-1 bg-cyan-500/20 rounded-full text-xs text-cyan-400 border border-cyan-500/50 font-mono"
-                    style={{ boxShadow: "0 0 10px rgba(0,255,255,0.3)" }}
-                  >
-                    ENCRYPTED
                   </div>
                 </div>
               </div>
@@ -435,20 +411,6 @@ const ViewPaste: React.FC = () => {
                     {paste.content}
                   </pre>
                 </div>
-                <div className="absolute top-4 right-4 flex gap-2">
-                  <div
-                    className="px-3 py-1 bg-black/80 backdrop-blur-sm rounded-full text-xs text-cyan-400 border border-cyan-500/50 font-mono"
-                    style={{ boxShadow: "0 0 10px rgba(0,255,255,0.3)" }}
-                  >
-                    {paste.content.length} BYTES
-                  </div>
-                  <div
-                    className="px-3 py-1 bg-black/80 backdrop-blur-sm rounded-full text-xs text-purple-400 border border-purple-500/50 font-mono"
-                    style={{ boxShadow: "0 0 10px rgba(128,0,255,0.3)" }}
-                  >
-                    {paste.content.split("\n").length} LINES
-                  </div>
-                </div>
               </div>
             </CardContent>
           </Card>
@@ -458,22 +420,23 @@ const ViewPaste: React.FC = () => {
               className="p-12 bg-purple-900/30 backdrop-blur-sm border border-purple-500/30 rounded-3xl"
               style={{ boxShadow: "0 0 50px rgba(128,0,255,0.2)" }}
             >
-              <h3 className="text-4xl font-bold text-white mb-6 font-mono">ESTABLISH YOUR NEURAL LINK</h3>
-              <p className="text-gray-400 mb-8 max-w-3xl mx-auto text-lg font-mono leading-relaxed">
+              <h3 className="sm:text-4xl text-md font-bold text-white mb-6 font-mono">ESTABLISH YOUR NEURAL LINK</h3>
+              <p className="text-gray-400 mb-8 max-w-3xl mx-auto sm:text-lg text-sm font-mono leading-relaxed">
                 Join the quantum network and share your data streams instantly with our
                 <span className="text-cyan-400"> neural encrypted</span> transmission protocols.
               </p>
               <Link to="/">
                 <Button
-                  className="bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 text-white px-12 py-4 text-lg font-mono"
+                  className="bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 text-white sm:px-12 px-4 sm:py-4 py-2 sm:text-lg text-sm font-mono rounded-lg"
                   style={{ boxShadow: "0 0 40px rgba(0,255,255,0.5)" }}
                 >
-                  <Zap className="w-6 h-6 mr-3 animate-pulse" />
+                  <Zap className="sm:w-6 w-4  mr-3 animate-pulse" />
                   INITIALIZE QUANTUM CORE
                 </Button>
               </Link>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div>
