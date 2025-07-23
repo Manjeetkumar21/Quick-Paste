@@ -16,7 +16,7 @@ const pasteSchema = new mongoose.Schema({
   },
   expireAt: {
     type: Date,
-    default: () => new Date(+new Date() + 30 * 60000),
+    default: () => new Date(+new Date() + 24 * 60 * 60 * 1000)
   },
 });
 

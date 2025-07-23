@@ -659,7 +659,7 @@ PASTE YOUR DATA:
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-400">UPTIME:</span>
-                      <span className="text-pink-400">30 mins</span>
+                      <span className="text-pink-400">24 Hours</span>
                     </div>
                   </div>
                 </CardContent>
