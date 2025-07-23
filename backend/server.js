@@ -12,6 +12,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.get('/health_check', (req, res) => {
+  return res.status(200).json({ message: 'Server is healthy' });
+});
+
 app.use('/api/paste', pasteRoutes);
 
 const PORT = process.env.PORT || 5000
