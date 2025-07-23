@@ -127,6 +127,15 @@ const handleSave = async () => {
     return;
   }
 
+  if (content.length > 100000) {
+    toast({
+      title: "Error",
+      description: "Content is too large! Max allowed is 100,000 characters.",
+      variant: "destructive",
+    });
+    return;
+  }
+
   setIsLoading(true);
 
   try {

@@ -4,6 +4,17 @@ const { nanoid } = require('nanoid');
 exports.createPaste = async (req, res) => {
   try {
     const { content } = req.body;
+
+    if (!content || !content.trim()) {
+      return res.status(400).json({ error: "Content is required" });
+    }
+
+    
+    if (content.length > 100000) {
+      return res.status(413).json({
+        error: "Content too large. Max allowed is 100,000 characters.",
+      });
+    }
     const pasteId = nanoid(8);
 
     const paste = new Paste({ content, pasteId });

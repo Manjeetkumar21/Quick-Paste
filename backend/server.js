@@ -9,7 +9,7 @@ connectDB().then();
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json({limit: "1mb"}));
 app.use(cors());
 
 app.get('/health_check', (req, res) => {
