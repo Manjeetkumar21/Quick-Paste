@@ -22,4 +22,4 @@ jobs:
         run: pip install requests
 
       - name: Run keep-alive script
-        run: python keep-service-alive-render/main.py
+        run: python keep-server-alive/main.py
